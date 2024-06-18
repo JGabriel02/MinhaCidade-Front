@@ -1,0 +1,103 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e6f7ff;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #005f99;
+    box-shadow: 0 0 10px rgba(107, 8, 236);
+
+
+  }
+  
+  header img {
+    margin-left: auto; /* Move a imagem para a direita */
+    height: 50px; /* Altura ajustada */
+  }
+  
+  header h1 {
+    font-size: 20px; /* Tamanho da fonte ajustado */
+    margin: 0;
+    text-align: center; /* Texto centralizado */
+    flex: 1; /* Ocupa o espaço restante */
+    
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(107, 8, 236);
+    border-radius: 5px;
+    background: #ffffff;
+
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    
+
+  }
+  
+  /* Estilo para os inputs e selects */
+  .container input[type="text"],
+  .container input[type="datetime-local"],
+  .container input[type="email"],
+  .container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  
+  
+  .container p {
+    width: 100%; /* Garante que os parágrafos ocupem 100% da largura do contêiner */
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .container button[type="submit"] {
+    background-color: #4CAF50; /* Cor de fundo */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  .container button[type="submit"]:hover {
+    background-color: #45a049; /* Cor de fundo ao passar o mouse */
+  }
+  
+  /* Estilo para o rodapé (opcional) */
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ccc;
+  }
+
+  .App-header {
+    background-color: #e6f7ff;
+  }
+  
+  
