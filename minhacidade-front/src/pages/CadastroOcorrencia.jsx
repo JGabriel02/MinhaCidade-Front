@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 import './cadEndereco.css'; // Certifique-se de que este caminho está correto
-import logo from "./img/logo.png"
+import Header from '../components/Header'
+
 
 const CadastroOcorrencia = () => {
   const [titulo, setTitulo] = useState('');
@@ -42,13 +43,12 @@ const CadastroOcorrencia = () => {
   };
 
   return (
+    
     <div>
-      <header>
-        <img src={logo} alt='' />
-        <h1>CADASTRAR OCORRÊNCIA</h1>
-      </header>
+        <Header></Header>
       <div className="container">
         <form onSubmit={handleSubmit}>
+          <h1>Cadastro de Ocorrência</h1>
           <p>Titulo:</p>
           <input type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
 
@@ -84,7 +84,7 @@ const CadastroOcorrencia = () => {
           <p>Email:</p>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
-          <button type="submit">Cadastrar postagem</button>
+          <button type="submit">Cadastrar Ocorrência</button>
         </form>
       </div>
     </div>

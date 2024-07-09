@@ -6,30 +6,6 @@ body {
     background-color: #e6f7ff;
 }
 
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    background-color: #005f99;
-    box-shadow: 0 0 10px rgba(107, 8, 236);
-
-
-  }
-  
-  header img {
-    margin-left: auto; /* Move a imagem para a direita */
-    height: 50px; /* Altura ajustada */
-  }
-  
-  header h1 {
-    font-size: 20px; /* Tamanho da fonte ajustado */
-    margin: 0;
-    text-align: center; /* Texto centralizado */
-    flex: 1; /* Ocupa o espaço restante */
-    
-  }
-  
   .container {
     max-width: 600px;
     margin: 20px auto;
@@ -84,7 +60,7 @@ header {
   }
   
   .container button[type="submit"]:hover {
-    background-color: #45a049; /* Cor de fundo ao passar o mouse */
+    background-color:  #003d66 /* Cor de fundo ao passar o mouse */
   }
   
   /* Estilo para o rodapé (opcional) */

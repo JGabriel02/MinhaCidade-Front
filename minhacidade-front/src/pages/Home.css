@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0; /* Cor de fundo para a página */
+}
+
+.color {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff; /* Cor de fundo para a seção principal */
+    border-radius: 10px; /* Cantos arredondados */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    max-width: 600px; /* Largura máxima para a seção principal */
+    width: 100%; /* Largura total da seção */
+}
+
+.header figure {
+    margin: 0;
+}
+
+.header img {
+    max-width: 100%; /* Imagem responsiva */
+    height: auto; /* Altura automática */
+}
+
+section p {
+    font-size: 16px; /* Tamanho da fonte */
+    line-height: 1.6; /* Altura da linha */
+    color: #333333; /* Cor do texto */
+}
+
+.btn {
+    background-color: #005f99; /* Cor de fundo do botão */
+    color: white; /* Cor do texto */
+    border: none; /* Remove a borda padrão */
+    padding: 12px 20px; /* Espaçamento interno do botão */
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+    font-size: 16px; /* Tamanho da fonte */
+    transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+}
+
+
+.btn:hover {
+    background-color: #003d66; /* Cor de fundo ao passar o mouse */
+    
+}

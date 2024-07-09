@@ -1,15 +1,13 @@
 // src/App.js
 import React from 'react';
 import './App.css';
-import CadastroOcorrencia from './CadastroOcorrencia';
+
+import AppRoutes from './Routes';
+import Home from './pages/Home';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <CadastroOcorrencia />
-      </header>
-    </div>
+    <AppRoutes></AppRoutes>
   );
 }
 

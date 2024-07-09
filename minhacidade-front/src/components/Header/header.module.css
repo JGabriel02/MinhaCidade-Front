@@ -1,0 +1,75 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 5px;
+    background-color: #005f99;
+    box-shadow: 0 0 30px rgba(107, 8, 236, 0.5);
+    position: relative;
+}
+
+header img {
+ 
+    left: 20px; /* Ajuste conforme necessário */
+    height: 50px; /* Altura ajustada */
+
+}
+
+header h1 {
+    font-size: 30px; /* Tamanho da fonte ajustado */
+    margin: 0;
+    text-align: center; /* Texto centralizado */
+    flex: 1; /* Ocupa o espaço restante */
+    font-family: 'Times New Roman', Times, serif;
+    margin-left: 180px;
+}
+
+header a {
+    font-size: 30px; /* Tamanho da fonte ajustado */
+    text-align: center; /* Texto centralizado */
+    color: black; /* Ajuste conforme necessário */
+    text-decoration: none; /* Remove a sublinha padrão */
+    padding: 0 20px; /* Espaçamento interno */
+    font-family: Arial, Helvetica, sans-serif;
+    border: 2px solid transparent; /* Borda transparente por padrão */
+    border-radius: 5px; /* Borda arredondada */
+    transition: all 0.3s ease; /* Transição suave para efeitos */
+}
+header a:hover {
+    background-color: #003d66; /* Cor de fundo ao passar o mouse */
+    border-color: #ffffff; /* Cor da borda ao passar o mouse */
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    header img {
+        position: static;
+        margin-bottom: 10px; /* Espaçamento inferior */
+    }
+
+    header h1 {
+        font-size: 18px; /* Ajuste conforme necessário */
+        margin-bottom: 10px; /* Espaçamento inferior */
+        text-align: center;
+        margin-right: 180px;
+    }
+
+    header a {
+        font-size: 18px; /* Ajuste conforme necessário */
+        margin: 0; /* Remove a margem lateral */
+        width: 100%; /* Faz o link ocupar toda a largura disponível */
+        border: 2px solid white; /* Borda branca ao link "Ocorrências" */
+        padding: 15px 0; /* Adiciona mais espaçamento vertical para ocupar mais espaço */
+        box-sizing: border-box; /* Inclui o padding e a borda no tamanho total do link */
+    }
+
+    header a:hover {
+        background-color: #003d66; /* Cor de fundo ao passar o mouse */
+        border-color: #ffffff; /* Cor da borda ao passar o mouse */
+    }
+}
