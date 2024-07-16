@@ -63,7 +63,6 @@ header a:hover {
         font-size: 18px; /* Ajuste conforme necessário */
         margin: 0; /* Remove a margem lateral */
         width: 100%; /* Faz o link ocupar toda a largura disponível */
-        border: 2px solid white; /* Borda branca ao link "Ocorrências" */
         padding: 15px 0; /* Adiciona mais espaçamento vertical para ocupar mais espaço */
         box-sizing: border-box; /* Inclui o padding e a borda no tamanho total do link */
     }

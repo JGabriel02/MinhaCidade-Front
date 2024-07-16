@@ -6,6 +6,10 @@ body {
     background-color: #e6f7ff;
 }
 
+
+.titulo {
+text-align: center;
+}
   .container {
     max-width: 600px;
     margin: 20px auto;
@@ -76,4 +80,29 @@ body {
     background-color: #e6f7ff;
   }
   
-  
+  /* Estiliza os campos de input e select */
+input[type="text"], input[type="datetime-local"], select, input[type="email"] {
+  width: 100%; /* Garante que os campos ocupem 100% da largura do contêiner */
+  padding: 10px;
+  margin: 5px 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Estiliza os botões */
+input[type="button"], input[type="submit"] {
+  width: 100%; /* Garante que os botões ocupem 100% da largura do contêiner */
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid rgb(107, 8, 236); /* Borda roxa */
+  border-radius: 4px;
+  background-color: white; /* Fundo branco */
+  color: black; /* Fonte preta */
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input[type="button"]:hover, input[type="submit"]:hover {
+  background-color: #e6f7ff;
+}

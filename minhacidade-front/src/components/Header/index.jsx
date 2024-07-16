@@ -7,9 +7,13 @@ function Header() {
             <Link to="/">
             <img src={logo} alt='Logo' />
             </Link>
-            <h1>Minha Cidade</h1>
-            <a href="" className={styles.link}>Ocorrências</a>
-            <a href="" className={styles.link}>ADM</a>               
+            <h1>
+            <Link to="/CadastroOcorrencia">
+            Minha Cidade
+            </Link>
+            </h1>
+            <a href="/ocorrencias" className={styles.link}>Ocorrências</a>
+            <a href="/attocorrencias" className={styles.link}>ADM</a>               
             
         </header>
     )
