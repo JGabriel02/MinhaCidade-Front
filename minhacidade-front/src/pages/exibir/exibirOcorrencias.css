@@ -9,7 +9,6 @@
 
 /* Estilo para o Header específico da página */
 .exibir-ocorrencias-header {
-  /* Garante que o Header tenha uma altura fixa */
   height: 60px; /* Ajuste a altura conforme necessário */
   background-color: #333; /* Cor de fundo do Header */
   color: #fff; /* Cor do texto do Header */
@@ -22,24 +21,22 @@
 
 /* Estilo para o container principal da página */
 .exibir-ocorrencias-container {
-  /* Garante que o container ocupe o restante da altura da tela */
-  max-height: 90vh; /* Subtrai a altura do Header */
-  /* Alinhar o container à esquerda da tela */
-  position: absolute;
-  top: 88px; /* Posiciona o container abaixo do Header */
-  left: 0;
-  /* Ocupa metade da largura da tela */
-  width: 50%; /* Ajuste a largura conforme necessário */
-  /* Adiciona um padding opcional para não colar o conteúdo na borda */
+  display: flex;
+  height: calc(100vh - 60px); /* Define a altura do container como a altura da tela menos a altura do Header */
+  overflow: hidden; /* Remove qualquer overflow para evitar barras de rolagem desnecessárias */
+}
+
+/* Estilo para o container das ocorrências */
+.exibir-ocorrencias-left-container {
+  flex: 1; /* Faz com que o container ocupe metade da largura da tela */
   padding: 20px;
-  box-sizing: border-box; /* Inclui o padding e border no cálculo da largura */
+  box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura e altura */
   background-color: #f0f0f0; /* Cor de fundo opcional */
   overflow-y: auto; /* Adiciona uma barra de rolagem vertical se o conteúdo ultrapassar a altura */
 }
 
 /* Estilo para o container das ocorrências */
 .exibir-ocorrencias-ocorrencias-container {
-  /* Define um tamanho fixo para o container dos cards */
   max-height: 100%; /* Garante que o container não ultrapasse a altura do container pai */
   overflow-y: auto; /* Adiciona uma barra de rolagem vertical se o conteúdo ultrapassar */
   padding: 0; /* Remove qualquer padding interno */
@@ -49,7 +46,6 @@
 
 /* Estilo para cada card de ocorrência */
 .exibir-ocorrencias-ocorrencia-card {
-  /* Adiciona um fundo branco e uma sombra para destacar o card */
   background-color: #ffffff;
   border-radius: 8px; /* Bordas arredondadas */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra leve */
@@ -64,44 +60,44 @@
   color: #333; /* Cor do texto */
 }
 
-/* Estilo para o container da imagem */
-.exibir-ocorrencias-image-container {
-  /* Preenche o restante da tela */
-  flex: 1; /* Ocupa o espaço restante na página */
-  background-color: #333;
-  background-size: cover; /* Cobre todo o container */
-  background-attachment: fixed; /* Fixa a imagem de fundo */
+/* Estilo para o container do mapa de calor */
+.exibir-ocorrencias-right-container {
+  flex: 1; /* Faz com que o container ocupe metade da largura da tela */
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente o conteúdo do mapa */
+  align-items: center; /* Centraliza verticalmente o conteúdo do mapa */
+  background-color: #f0f0f0; /* Cor de fundo opcional para o container do mapa */
+  border-left: 1px solid #ccc; /* Adiciona uma borda à esquerda */
+  box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura e altura */
+}
+
+/* Estilo para o mapa de calor */
+.exibir-ocorrencias-heatmap-map {
+  width: 100%;
+  height: 100%;
+  min-height: 400px; /* Ajuste conforme necessário para garantir que o mapa tenha uma altura mínima */
+  border: 1px solid #ddd; /* Borda leve para o mapa */
+  box-sizing: border-box; /* Inclui o padding e a borda no cálculo da largura e altura */
 }
 
 /* Ajustes para dispositivos móveis */
 @media (max-width: 768px) {
   .exibir-ocorrencias-container {
-    padding: 10px; /* Reduz o padding em telas menores */
-    width: 100%; /* Ocupa toda a largura da tela em telas pequenas */
-    position: relative; /* Remove a posição absoluta */
-    top: 0; /* Remove o ajuste do topo */
-    min-height: calc(100vh - 60px); /* Ajusta a altura para acomodar o Header */
+    flex-direction: column; /* Alinha os containers verticalmente em telas pequenas */
   }
   
-  .exibir-ocorrencias-image-container {
-    display: none; /* Oculta a imagem em telas menores, se desejado */
+  .exibir-ocorrencias-left-container,
+  .exibir-ocorrencias-right-container {
+    width: 100%; /* Faz com que os containers ocupem toda a largura disponível em telas pequenas */
+    height: 50%; /* Cada container ocupará metade da altura da tela */
+    border-left: none; /* Remove a borda esquerda em telas pequenas */
   }
-}
-
-/* Personalização da barra de rolagem para navegadores baseados em WebKit */
-.exibir-ocorrencias-ocorrencias-container::-webkit-scrollbar {
-  width: 10px; /* Largura da barra de rolagem */
-}
-
-.exibir-ocorrencias-ocorrencias-container::-webkit-scrollbar-track {
-  background: #f0f0f0; /* Cor do fundo da trilha */
-}
-
-.exibir-ocorrencias-ocorrencias-container::-webkit-scrollbar-thumb {
-  background: #888; /* Cor da barra de rolagem */
-  border-radius: 10px; /* Bordas arredondadas da barra */
-}
-
-.exibir-ocorrencias-ocorrencias-container::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Cor da barra de rolagem quando hover */
+  
+  .exibir-ocorrencias-left-container {
+    border-bottom: 1px solid #ccc; /* Adiciona uma borda inferior em telas pequenas */
+  }
+  
+  .exibir-ocorrencias-heatmap-map {
+    min-height: 300px; /* Ajusta a altura mínima do mapa para telas menores */
+  }
 }

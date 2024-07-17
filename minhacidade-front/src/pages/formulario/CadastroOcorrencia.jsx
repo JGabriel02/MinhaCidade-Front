@@ -155,7 +155,7 @@ const CadastroOcorrencia = () => {
     console.log('Dados do formulário:', formData);
 
     // Enviar dados para o banco de dados
-    fetch(`${process.env.REACT_APP_API_URL}/cadastrar`, {
+    fetch('http://52.14.161.176:3000/cadastrar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -167,6 +167,7 @@ const CadastroOcorrencia = () => {
         console.log('Success:', data);
         alert('Ocorrência cadastrada com sucesso!');
 
+        // Limpar os campos do formulário
         setTitulo('');
         setDescricao('');
         setTipo('');
@@ -181,13 +182,15 @@ const CadastroOcorrencia = () => {
         setLongitude(null);
         document.getElementById('address').value = '';
 
+        // Centralizar o mapa nas coordenadas iniciais e limpar o marcador
         map.setCenter({ lat: -30.035229878185845, lng: -51.226468536689104 });
         map.setZoom(15);
         if (marker) {
           marker.setMap(null);
         }
-        setMarker(null);
+        setMarker(null); // Atualize o estado do marcador
 
+        // Adiciona um marcador nas coordenadas iniciais
         const initialMarker = new window.google.maps.Marker({
           position: { lat: -30.035229878185845, lng: -51.226468536689104 },
           map: map,
