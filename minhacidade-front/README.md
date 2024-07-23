@@ -71,7 +71,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 ### NPMs 
-npm i yup
+#npm i yup
 npm i emailjs-com
 npm i formik
 npm i leaflet-heatmap
