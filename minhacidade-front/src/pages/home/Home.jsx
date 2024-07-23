@@ -17,12 +17,15 @@ function Home() {
                     <img src={logo}alt="Minha Cidade" />
                 </figure>
                 <section>
-                    <p>
-                        O APP “minha cidade” é um HUB de informações<br />
-                        Que facilita a disseminação de informações úteis ao cidadão<br />
-                        Ao contrário dos sites oficiais (156+ etc...)<br />
-                        O produto é simples e prático. <br />
-                        Basta apertar o botão abaixo, o usuário será redirecioando ao formulario de registro, onde escolhe o tipo de evento, localiza e fornece a data e a hora da ocorrência
+                    <p>Bem-vindo! Você está no Minha Cidade!<br />
+                    Mais do que um aplicativo, é uma revolução na forma como você interage com a sua cidade. <br />
+                    Com funcionalidades abrangentes, o Minha Cidade coloca informações essenciais nas suas mãos.<br />
+                    É fácil,  simples e vai direto para os responsáveis.<br />
+                    Não é necessário ficar procurando onde solicitar, registrar  ou onde reclamar.<br />
+                    A cidade é das pessoas.  É feita por elas, para elas. <br />
+                    Faça sua parte e registre aqui o que você precisa.<br />
+                    Use e se surpreenda!
+                        
                     </p>
                     <br />
                     <br />

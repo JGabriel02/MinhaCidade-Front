@@ -1,79 +1,90 @@
 import React, { useEffect, useState } from 'react';
 import './atualizarOcorrencias.css';
 import Header from '../../components/Header';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet.heat';
 
 const AtualizarOcorrencias = () => {
   const [ocorrencias, setOcorrencias] = useState([]);
-  const [atualizando, setAtualizando] = useState(null);
+  const [map, setMap] = useState(null);
 
   useEffect(() => {
     const fetchOcorrencias = async () => {
       try {
-        const response = await fetch('http://52.14.161.176:3000/ocorrencias');
+        const response = await fetch('http://52.14.161.176:8081/ocorrencias');
         const data = await response.json();
         setOcorrencias(data);
+
+        const processedData = data
+          .filter(ocorrencia => ocorrencia.latitude && ocorrencia.longitude)
+          .map(ocorrencia => [ocorrencia.latitude, ocorrencia.longitude, 1]); // Adiciona um valor de 1 para cada ponto
+
+        // Adicione uma verificação de dimensões
+        const mapContainer = document.getElementById('heatmap-map');
+        if (mapContainer && mapContainer.clientHeight > 0 && mapContainer.clientWidth > 0) {
+          if (!map) {
+            const newMap = L.map('heatmap-map', {
+              center: { lat: -30.035229878185845, lng: -51.226468536689104 },
+              zoom: 15,
+              maxZoom: 17,
+            });
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              maxZoom: 19,
+              attribution: '© OpenStreetMap contributors',
+            }).addTo(newMap);
+
+            setMap(newMap);
+          } else {
+            map.eachLayer((layer) => {
+              if (layer instanceof L.HeatLayer) {
+                map.removeLayer(layer); // Remove a camada de calor antiga, se houver
+              }
+            });
+          }
+
+          if (processedData.length > 0) {
+            L.heatLayer(processedData, { radius: 25 }).addTo(map);
+          }
+        }
       } catch (error) {
         console.error('Erro ao buscar ocorrências:', error);
       }
     };
 
     fetchOcorrencias();
-  }, []);
-
-  const handleUpdate = async (id) => {
-    const status = document.getElementById(`status-${id}`).value;
-    const observacao = document.getElementById(`observacao-${id}`).value;
-    try {
-      const response = await fetch('http://52.14.161.176:3000/attOcorrencia', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id, status, observacao }),
-      });
-      if (response.ok) {
-        alert('Ocorrência atualizada');
-        setAtualizando(null); // Reseta o estado de atualização
-      } else {
-        console.error('Erro ao atualizar ocorrência:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Erro ao atualizar ocorrência:', error);
-    }
-  };
+  }, [map]);
 
   return (
     <div className="atualizar-ocorrencias-page">
-      <Header className="atualizar-ocorrencias-header" />
+      <Header />
       <div className="atualizar-ocorrencias-container">
-        <div className="atualizar-ocorrencias-ocorrencias-container">
-          {ocorrencias.map((ocorrencia) => (
-            <div key={ocorrencia.id} className="atualizar-ocorrencias-ocorrencia-card">
-              <div className="atualizar-ocorrencias-ocorrencia-info">
-                <p><strong>ID:</strong> {ocorrencia.id}</p>
-                <p><strong>Título:</strong> {ocorrencia.titulo}</p>
-                <p><strong>Endereço:</strong> {ocorrencia.endereco}</p>
-                <p><strong>Data e Hora:</strong> {ocorrencia.dataHora}</p>
-                <p><strong>Status Atual:</strong> {ocorrencia.statusAndamento}</p>
+        <div className="atualizar-ocorrencias-left-container">
+          <div className="atualizar-ocorrencias-ocorrencias-container">
+            {ocorrencias.map((ocorrencia) => (
+              <div key={ocorrencia.id} className="atualizar-ocorrencias-ocorrencia-card">
+                <div className="atualizar-ocorrencias-ocorrencia-info">
+                  <p>ID: {ocorrencia.id}</p>
+                  <p>Título: {ocorrencia.titulo}</p>
+                  <p>Estado: {ocorrencia.estado}</p>
+                  <p>Rua: {ocorrencia.rua}</p>
+                  <p>Data-Hora: {ocorrencia.dataHora}</p>
+                </div>
+                <div className="atualizar-ocorrencias-ocorrencia-update">
+                  <label>Status de Andamento:</label>
+                  <input type="text" value={ocorrencia.statusAndamento || ''} />
+                  <label>Observações:</label>
+                  <input type="text" value={ocorrencia.observacoes || ''} />
+                  <button>Atualizar</button>
+                </div>
               </div>
-              <div className="atualizar-ocorrencias-ocorrencia-update">
-                <label htmlFor={`status-${ocorrencia.id}`}>Status Andamento:</label>
-                <select id={`status-${ocorrencia.id}`}>
-                  <option value="Aberto">Aberto</option>
-                  <option value="Em atendimento">Em atendimento</option>
-                  <option value="Resolvido">Resolvido</option>
-                  <option value="Cancelado">Cancelado</option>
-                </select>
-                <label htmlFor={`observacao-${ocorrencia.id}`}>Observação:</label>
-                <input type="text" id={`observacao-${ocorrencia.id}`} />
-                <button onClick={() => handleUpdate(ocorrencia.id)}>Atualizar</button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="atualizar-ocorrencias-image-container">
-        {/* A imagem será definida via CSS */}
+        <div className="atualizar-ocorrencias-right-container">
+          <div id="heatmap-map" className="atualizar-ocorrencias-heatmap-map"></div>
+        </div>
       </div>
     </div>
   );

@@ -2,23 +2,22 @@ import React, { useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import './cadEndereco.css';
 import Header from '../../components/Header';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 const CadastroOcorrencia = () => {
-  const [titulo, setTitulo] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [tipo, setTipo] = useState('');
-  const [estado, setEstado] = useState('');
-  const [cidade, setCidade] = useState('');
-  const [bairro, setBairro] = useState('');
-  const [rua, setRua] = useState('');
-  const [numero, setNumero] = useState('');
-  const [dataHora, setDataHora] = useState('');
-  const [email, setEmail] = useState('');
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [map, setMap] = useState(null);
   const [geocoder, setGeocoder] = useState(null);
-  const [marker, setMarker] = useState(null); // Adicionado para armazenar o marcador
+  const [marker, setMarker] = useState(null);
+  const [addressFields, setAddressFields] = useState({
+    rua: '',
+    numero: '',
+    bairro: '',
+    cidade: '',
+    estado: ''
+  });
 
   useEffect(() => {
     const initMap = () => {
@@ -53,27 +52,18 @@ const CadastroOcorrencia = () => {
           map: initialMap,
         });
 
-
-        // Geocodificando o endereço baseado na localização do clique
         try {
           const results = await geocoderInstance.geocode({ location: { lat, lng } });
           if (results.results.length > 0) {
             const addressComponents = results.results[0].address_components;
-            const address = addressComponents.map(component => component.long_name).join(', ');
-            const addressArray = address.split(', ');
             const addressObj = {
-              rua: addressArray[0] || '',
-              numero: addressArray[1] || '',
-              bairro: addressArray[2] || '',
-              cidade: addressArray[3] || '',
-              estado: addressArray[4] || '',
+              rua: addressComponents.find(component => component.types.includes('route'))?.long_name || '',
+              numero: addressComponents.find(component => component.types.includes('street_number'))?.long_name || '',
+              bairro: addressComponents.find(component => component.types.includes('sublocality_level_1'))?.long_name || '',
+              cidade: addressComponents.find(component => component.types.includes('administrative_area_level_2'))?.long_name || '',
+              estado: addressComponents.find(component => component.types.includes('administrative_area_level_1'))?.short_name || '',
             };
-            setRua(addressObj.rua);
-            setNumero(addressObj.numero);
-            setBairro(addressObj.bairro);
-            setCidade(addressObj.cidade);
-            setEstado(addressObj.estado);
-            document.getElementById('address').value = address;
+            setAddressFields(addressObj);
           } else {
             alert('Endereço não encontrado para a localização selecionada.');
           }
@@ -89,11 +79,10 @@ const CadastroOcorrencia = () => {
     } else {
       console.error('Google Maps JavaScript API não carregada');
     }
-  }, []);
+  }, [marker]);
 
-  const handleAddressChange = () => {
-    const address = `${rua}, ${numero}, ${bairro}, ${cidade}, ${estado}`;
-    document.getElementById('address').value = address;
+  const handleAddressChange = (values, setFieldValue) => {
+    const address = `${values.rua}, ${values.numero}, ${values.bairro}, ${values.cidade}, ${values.estado}`;
     geocoder.geocode({ address: address })
       .then((results) => {
         if (results.results.length > 0) {
@@ -101,27 +90,18 @@ const CadastroOcorrencia = () => {
           setLatitude(lat());
           setLongitude(lng());
 
-          // Remove o marcador antigo, se existir
+          // Remove the old marker if it exists
           if (marker) {
             marker.setMap(null);
           }
 
-          // Adiciona um novo marcador no novo endereço
+          // Add a new marker
           const newMarker = new window.google.maps.Marker({
             position: { lat: lat(), lng: lng() },
             map: map,
           });
           setMarker(newMarker);
-
-          // Centraliza o mapa no novo endereço
           map.setCenter({ lat: lat(), lng: lng() });
-
-          // Atualiza os campos de endereço com o novo endereço encontrado
-          setRua(rua);
-          setNumero(numero);
-          setBairro(bairro);
-          setCidade(cidade);
-          setEstado(estado);
         } else {
           alert('Endereço não encontrado.');
         }
@@ -132,30 +112,34 @@ const CadastroOcorrencia = () => {
       });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const validationSchema = Yup.object().shape({
+    titulo: Yup.string().required('Título é obrigatório'),
+    descricao: Yup.string().required('Descrição é obrigatória'),
+    tipo: Yup.string().required('Tipo é obrigatório'),
+    estado: Yup.string().required('Estado é obrigatório'),
+    cidade: Yup.string().required('Cidade é obrigatória'),
+    bairro: Yup.string().required('Bairro é obrigatório'),
+    rua: Yup.string().required('Rua é obrigatória'),
+    numero: Yup.string().required('Número é obrigatório'),
+    dataHora: Yup.date().required('Data e hora são obrigatórias'),
+    email: Yup.string().email('Email inválido').required('Email é obrigatório'),
+  });
 
-    // Verifique se todos os campos estão preenchidos
-    if (!titulo || !descricao || !tipo || !estado || !cidade || !bairro || !rua || !numero || !dataHora || !email || !latitude || !longitude) {
-      alert('Todos os campos devem ser preenchidos!');
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    if (!latitude || !longitude) {
+      alert('Selecione uma localização no mapa!');
+      setSubmitting(false);
       return;
     }
 
     const formData = {
-      titulo,
-      descricao,
-      tipo,
-      endereco: `${rua}, ${numero}, ${bairro}, ${cidade}, ${estado}`,
-      dataHora,
-      email,
+      ...values,
+      endereco: `${values.rua}, ${values.numero}, ${values.bairro}, ${values.cidade}, ${values.estado}`,
       latitude,
       longitude
     };
 
-    console.log('Dados do formulário:', formData);
-
-    // Enviar dados para o banco de dados
-    fetch('http://52.14.161.176:3000/cadastrar', {
+    fetch('http://52.14.161.176:8081/cadastrar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -164,106 +148,123 @@ const CadastroOcorrencia = () => {
     })
       .then(response => response.text())
       .then(data => {
-        console.log('Success:', data);
         alert('Ocorrência cadastrada com sucesso!');
-
-        // Limpar os campos do formulário
-        setTitulo('');
-        setDescricao('');
-        setTipo('');
-        setEstado('');
-        setCidade('');
-        setBairro('');
-        setRua('');
-        setNumero('');
-        setDataHora('');
-        setEmail('');
+        resetForm();
         setLatitude(null);
         setLongitude(null);
-        document.getElementById('address').value = '';
-
-        // Centralizar o mapa nas coordenadas iniciais e limpar o marcador
         map.setCenter({ lat: -30.035229878185845, lng: -51.226468536689104 });
         map.setZoom(15);
         if (marker) {
           marker.setMap(null);
         }
-        setMarker(null); // Atualize o estado do marcador
-
-        // Adiciona um marcador nas coordenadas iniciais
-        const initialMarker = new window.google.maps.Marker({
-          position: { lat: -30.035229878185845, lng: -51.226468536689104 },
-          map: map,
-        });
-        setMarker(initialMarker);
-
-        setLatitude(-30.035229878185845);
-        setLongitude(-51.226468536689104);
+        setMarker(null);
       })
       .catch((error) => {
         console.error('Error:', error);
         alert('Falha ao cadastrar ocorrência. Tente novamente.');
       });
 
-    // Enviar e-mail
     emailjs.send('service_z0i22hr', 'template_b1g8umf', formData, 'm1VZ2-glXWP2g3z3S')
       .then((response) => {
-        console.log('E-mail enviado com sucesso!', response.status, response.text);
         alert('E-mail enviado com sucesso!');
       }, (error) => {
         console.error('Falha ao enviar e-mail:', error);
         alert('Falha ao enviar e-mail. Tente novamente.');
       });
+
+    setSubmitting(false);
   };
 
   return (
     <div>
       <Header />
       <div className="container">
-        <form onSubmit={handleSubmit}>
-          <h1 className='titulo'>Cadastrar Ocorrencia</h1>
-          <p>Titulo:</p>
-          <input type="text" value={titulo} onChange={(e) => setTitulo(e.target.value)} />
+        <Formik
+          initialValues={{
+            titulo: '',
+            descricao: '',
+            tipo: '',
+            estado: '',
+            cidade: '',
+            bairro: '',
+            rua: '',
+            numero: '',
+            dataHora: '',
+            email: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ values, setFieldValue, isSubmitting }) => (
+            <Form>
+              <h1 className='titulo'>Cadastrar Ocorrencia</h1>
+              <p>Titulo:</p>
+              <Field type="text" name="titulo" />
+              <ErrorMessage name="titulo" component="div" className="error" />
 
-          <p>Descrição:</p>
-          <input type="text" value={descricao} onChange={(e) => setDescricao(e.target.value)} />
+              <p>Descrição:</p>
+              <Field type="text" name="descricao" />
+              <ErrorMessage name="descricao" component="div" className="error" />
 
-          <p>Tipo:</p>
-          <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-            <option value="" disabled>--Selecione o tipo de ocorrência--</option>
-            <option value="assaltoFurto">Assalto/Furto</option>
-            <option value="asfaltoCalcada">Problema no asfalto/calçada</option>
-            <option value="aguaLuz">Falta de água/luz</option>
-          </select>
+              <p>Tipo:</p>
+              <Field as="select" name="tipo">
+                <option value="" disabled>--Selecione o tipo de ocorrência--</option>
+                <option value="assaltoFurto">Assalto/Furto</option>
+                <option value="asfaltoCalcada">Problema no asfalto/calçada</option>
+                <option value="aguaLuz">Falta de água/luz</option>
+              </Field>
+              <ErrorMessage name="tipo" component="div" className="error" />
 
-          <p>Estado:</p>
-          <input type="text" value={estado} onChange={(e) => setEstado(e.target.value)} />
+              <p>Estado:</p>
+              <Field type="text" name="estado" value={values.estado || addressFields.estado} onChange={(e) => {
+                setFieldValue('estado', e.target.value);
+                setAddressFields({ ...addressFields, estado: e.target.value });
+              }} />
+              <ErrorMessage name="estado" component="div" className="error" />
 
-          <p>Cidade:</p>
-          <input type="text" value={cidade} onChange={(e) => setCidade(e.target.value)} />
+              <p>Cidade:</p>
+              <Field type="text" name="cidade" value={values.cidade || addressFields.cidade} onChange={(e) => {
+                setFieldValue('cidade', e.target.value);
+                setAddressFields({ ...addressFields, cidade: e.target.value });
+              }} />
+              <ErrorMessage name="cidade" component="div" className="error" />
 
-          <p>Bairro:</p>
-          <input type="text" value={bairro} onChange={(e) => setBairro(e.target.value)} />
+              <p>Bairro:</p>
+              <Field type="text" name="bairro" value={values.bairro || addressFields.bairro} onChange={(e) => {
+                setFieldValue('bairro', e.target.value);
+                setAddressFields({ ...addressFields, bairro: e.target.value });
+              }} />
+              <ErrorMessage name="bairro" component="div" className="error" />
 
-          <p>Rua</p>
-          <input type="text" value={numero} onChange={(e) => setRua(e.target.value)} />
+              <p>Rua:</p>
+              <Field type="text" name="rua" value={values.rua || addressFields.rua} onChange={(e) => {
+                setFieldValue('rua', e.target.value);
+                setAddressFields({ ...addressFields, rua: e.target.value });
+              }} />
+              <ErrorMessage name="rua" component="div" className="error" />
 
-          <p>Numero:</p>
-          <input type="text" value={rua} onChange={(e) =>setNumero (e.target.value)} />
-          
-          <p>Data e Hora:</p>
-          <input type="datetime-local" value={dataHora} onChange={(e) => setDataHora(e.target.value)} />
+              <p>Numero:</p>
+              <Field type="text" name="numero" value={values.numero || addressFields.numero} onChange={(e) => {
+                setFieldValue('numero', e.target.value);
+                setAddressFields({ ...addressFields, numero: e.target.value });
+              }} />
+              <ErrorMessage name="numero" component="div" className="error" />
 
-          <p>E-mail:</p>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <p>Data e Hora:</p>
+              <Field type="datetime-local" name="dataHora" />
+              <ErrorMessage name="dataHora" component="div" className="error" />
 
-          <input id="address" type="text" readOnly style={{ display: 'none' }}/>
+              <p>E-mail:</p>
+              <Field type="email" name="email" />
+              <ErrorMessage name="email" component="div" className="error" />
 
-          <button type="button" onClick={handleAddressChange}>Buscar Endereço</button>
+              <button type="button" onClick={() => handleAddressChange(values, setFieldValue)}>Buscar Endereço</button>
 
-          <input type="submit" value="Cadastrar postagem" />
-        </form>
-        <div id="map" style={{ width: '100%', height: '500px' }}></div>
+              <button type="submit" disabled={isSubmitting}>Cadastrar</button>
+            </Form>
+          )}
+        </Formik>
+        <div id="map" style={{ height: '400px', width: '100%' }}></div>
       </div>
     </div>
   );

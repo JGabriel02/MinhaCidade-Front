@@ -12,7 +12,7 @@ const ExibirOcorrencias = () => {
   useEffect(() => {
     const fetchOcorrencias = async () => {
       try {
-        const response = await fetch('http://52.14.161.176:3000/ocorrencias');
+        const response = await fetch('http://52.14.161.176:8081/ocorrencias');
         const data = await response.json();
         setOcorrencias(data);
 
@@ -101,6 +101,7 @@ const ExibirOcorrencias = () => {
                   <p>Título: {ocorrencia.titulo}</p>
                   <p>Endereço: {ocorrencia.endereco}</p>
                   <p>Data e Hora: {ocorrencia.dataHora}</p>
+                  <p>Observação: {ocorrencia.observacao}</p>
                 </div>
               </div>
             ))}
