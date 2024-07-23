@@ -20,7 +20,7 @@ const ExibirOcorrencias = () => {
           .filter(ocorrencia => ocorrencia.latitude && ocorrencia.longitude)
           .map(ocorrencia => [ocorrencia.latitude, ocorrencia.longitude, 1]); // Adiciona um valor de 1 para cada ponto
 
-        // Adicione uma verificação de dimensões
+        
         const mapContainer = document.getElementById('heatmap-map');
         if (mapContainer && mapContainer.clientHeight > 0 && mapContainer.clientWidth > 0) {
           if (!map) {

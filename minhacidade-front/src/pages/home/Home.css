@@ -3,17 +3,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #f0f0f0; /* Cor de fundo para a página */
+    background-color: #f0f0f0; 
+    padding: 10px; 
 }
 
 .color {
     text-align: center;
     padding: 20px;
-    background-color: #ffffff; /* Cor de fundo para a seção principal */
-    border-radius: 10px; /* Cantos arredondados */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    max-width: 600px; /* Largura máxima para a seção principal */
-    width: 100%; /* Largura total da seção */
+    background-color: #ffffff; 
+    border-radius: 10px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+    max-width: 100%; 
+    width: 100%; 
 }
 
 .header figure {
@@ -21,29 +22,58 @@
 }
 
 .header img {
-    max-width: 100%; /* Imagem responsiva */
-    height: auto; /* Altura automática */
+    max-width: 100%; 
+    height: auto; 
 }
 
 section p {
-    font-size: 16px; /* Tamanho da fonte */
-    line-height: 1.6; /* Altura da linha */
-    color: #333333; /* Cor do texto */
+    font-size: 16px; 
+    line-height: 1.6; 
+    color: #333333; 
 }
 
 .btn {
-    background-color: #005f99; /* Cor de fundo do botão */
-    color: white; /* Cor do texto */
-    border: none; /* Remove a borda padrão */
-    padding: 12px 20px; /* Espaçamento interno do botão */
-    border-radius: 5px; /* Bordas arredondadas */
-    cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
-    font-size: 16px; /* Tamanho da fonte */
-    transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+    background-color: #005f99; 
+    color: white; 
+    border: none; 
+    padding: 12px 20px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background-color 0.3s ease; 
+}
+
+.btn:hover {
+    background-color: #003d66; 
 }
 
 
-.btn:hover {
-    background-color: #003d66; /* Cor de fundo ao passar o mouse */
-    
+@media (max-width: 768px) {
+    .color {
+        padding: 15px; 
+    }
+
+    section p {
+        font-size: 14px; 
+    }
+
+    .btn {
+        padding: 10px 16px; 
+        font-size: 14px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .color {
+        padding: 10px; 
+    }
+
+    section p {
+        font-size: 12px; 
+    }
+
+    .btn {
+        padding: 8px 12px; 
+        font-size: 12px; 
+    }
 }

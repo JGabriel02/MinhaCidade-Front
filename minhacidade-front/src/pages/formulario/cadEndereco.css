@@ -20,7 +20,7 @@ body {
   box-shadow: 0 0 10px rgba(107, 8, 236, 0.3);
 }
 
-/* Estilo para os inputs e selects */
+
 .container input[type="text"],
 .container input[type="datetime-local"],
 .container input[type="email"],
@@ -99,9 +99,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
   margin-top: 20px;
 }
 
-/* Media Queries para responsividade */
 
-/* Para telas pequenas (smartphones em modo retrato) */
 @media (max-width: 480px) {
   .container {
     margin: 10px;
@@ -126,7 +124,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
   }
 }
 
-/* Para telas médias (tablets em modo paisagem e smartphones maiores) */
+
 @media (max-width: 768px) {
   .container {
     padding: 15px;

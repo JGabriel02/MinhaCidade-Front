@@ -18,7 +18,7 @@ const AtualizarOcorrencias = () => {
 
         const processedData = data
           .filter(ocorrencia => ocorrencia.latitude && ocorrencia.longitude)
-          .map(ocorrencia => [ocorrencia.latitude, ocorrencia.longitude, 1]); // Adiciona um valor de 1 para cada ponto
+          .map(ocorrencia => [ocorrencia.latitude, ocorrencia.longitude, 1]); 
 
         // Adicione uma verificação de dimensões
         const mapContainer = document.getElementById('heatmap-map');
@@ -39,7 +39,7 @@ const AtualizarOcorrencias = () => {
           } else {
             map.eachLayer((layer) => {
               if (layer instanceof L.HeatLayer) {
-                map.removeLayer(layer); // Remove a camada de calor antiga, se houver
+                map.removeLayer(layer); 
               }
             });
           }

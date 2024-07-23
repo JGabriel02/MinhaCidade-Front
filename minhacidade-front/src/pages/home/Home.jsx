@@ -8,7 +8,7 @@ function Home() {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate('/CadastroOcorrencia'); // Navega para a página About
+        navigate('/CadastroOcorrencia'); 
     };
     return (
         <div className="container">

@@ -34,7 +34,7 @@ const CadastroOcorrencia = () => {
       setGeocoder(geocoderInstance);
       setMap(initialMap);
 
-      let marker = null; // variável para armazenar o marcador
+      let marker = null; 
 
       initialMap.addListener('click', async (event) => {
         const { latLng } = event;
@@ -44,7 +44,7 @@ const CadastroOcorrencia = () => {
         setLongitude(lng);
 
         if (marker) {
-          marker.setMap(null); // Remove o marcador antigo
+          marker.setMap(null); 
         }
 
         marker = new window.google.maps.Marker({
@@ -90,12 +90,12 @@ const CadastroOcorrencia = () => {
           setLatitude(lat());
           setLongitude(lng());
 
-          // Remove the old marker if it exists
+          
           if (marker) {
             marker.setMap(null);
           }
 
-          // Add a new marker
+         
           const newMarker = new window.google.maps.Marker({
             position: { lat: lat(), lng: lng() },
             map: map,
